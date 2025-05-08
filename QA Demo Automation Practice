@@ -1,0 +1,171 @@
+package QADemo;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class qademoautomation {
+
+	public static void main(String[] args) throws InterruptedException {
+    ChromeDriver driver=new ChromeDriver();
+    JavascriptExecutor js = driver;
+	driver.get("https://demoqa.com/");
+	driver.manage().window().maximize();
+	
+	//Right Click operation
+	WebElement m=driver.findElement(By.xpath("//h5[normalize-space()='Elements']"));
+	js.executeScript("arguments[0].click();", m);
+	
+	WebElement q=driver.findElement(By.xpath("//span[normalize-space()='Buttons']"));
+	js.executeScript("arguments[0].click();", q);
+	
+	WebElement b=driver.findElement(By.xpath("//button[@id='rightClickBtn']"));
+    Actions act=new Actions(driver);
+    act.contextClick(b).click().perform();
+    
+	WebElement f=driver.findElement(By.xpath("//p[@id='rightClickMessage']"));
+	String h=f.getText();
+	System.out.println(h);
+	
+	if(h.equals("You have done a right click"))
+		System.out.println("The Right CLick is done");
+	else
+		System.out.println("The Right CLick is not done");
+	
+	//Dynamic Web Elements
+	WebElement m1=driver.findElement(By.xpath("//span[normalize-space()='Dynamic Properties']"));
+	js.executeScript("arguments[0].click();", m1);
+	Thread.sleep(6);
+	String d=driver.findElement(By.xpath("//button[@id='visibleAfter']")).getText();
+	System.out.println("d");
+	
+	
+	//Switching Between Frames
+	
+	WebElement n=driver.findElement(By.xpath("//body/div[@id='app']/div[contains(@class,'body-height')]/div[contains(@class,'container playgound-body')]/div[contains(@class,'row')]/div[contains(@class,'col-md-3')]/div[contains(@class,'left-pannel')]/div[contains(@class,'accordion')]/div[3]/span[1]/div[1]/div[1]"));
+	js.executeScript("arguments[0].click();", n);
+	
+	WebElement t=driver.findElement(By.xpath("//span[normalize-space()='Frames']"));
+	js.executeScript("arguments[0].click();", t);
+	
+	driver.switchTo().frame("frame1");
+	WebElement l=driver.findElement(By.xpath("//h1[@id='sampleHeading']"));
+	String e=l.getText();
+	Point p1=l.getLocation();
+	System.out.println(e);
+	System.out.println(p1);
+	
+	driver.switchTo().defaultContent();
+
+	driver.switchTo().frame("frame2");
+	WebElement j=driver.findElement(By.xpath("//h1[@id='sampleHeading']"));
+	js.executeScript("arguments[0].click();", j);
+	String s=j.getText();
+	Point p2=j.getLocation();
+	System.out.println(e);
+	System.out.println(p2);
+	
+	driver.switchTo().defaultContent();
+	
+	//Hover Action
+	WebElement j2=driver.findElement(By.xpath("//span[normalize-space()='Tool Tips']"));
+	  js.executeScript("arguments[0].scrollIntoView();", j2);
+	js.executeScript("arguments[0].click();", j2);
+	
+	 WebElement s1=driver.findElement(By.xpath("//button[@id='toolTipButton']"));
+     
+     Actions act2=new Actions(driver);
+     act2.moveToElement(s1).click().build().perform();
+	
+	//Handling drop down values
+	WebElement j1=driver.findElement(By.xpath("//body/div[@id='app']/div[@class='body-height']/div[@class='container playgound-body']/div[@class='row']/div[1]/div[1]/div[1]/div[4]/span[1]/div[1]/div[1]"));
+	js.executeScript("arguments[0].click();", j1);
+	
+	WebElement El=driver.findElement(By.xpath("//span[normalize-space()='Select Menu']"));	
+    js.executeScript("arguments[0].scrollIntoView();", El);
+	js.executeScript("arguments[0].click();", El);
+	
+	String optiontext="Group 1, option 2";
+	 WebElement dropdown = driver.findElement(By.xpath("//div[contains(@class, 'css-1wy0on6')]"));
+	 dropdown.click();
+
+	 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'css-yt9ioa-option')]")));
+
+	 Thread.sleep(10);
+	 WebElement option = driver.findElement(By.xpath("//div[contains(@class, 'css-yt9ioa-option') and text()='" + optiontext + "']"));
+	//Scrolling
+	 js.executeScript("arguments[0].scrollIntoView({block: 'center'});", option);
+	 js.executeScript("arguments[0].click();", option);
+
+//	 WebElement dropdown = driver.findElement(By.xpath("//div[contains(@class, 'css-1wy0on6')]"));
+//	 dropdown.click();
+//
+//	// Wait for visible option and click it
+//	 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//	WebElement option = wait.until(ExpectedConditions.elementToBeClickable(
+//	    By.xpath("//div[contains(@class,' css-1uccc91-singleValue')]")));
+//	    js.executeScript("arguments[0].click();", option);
+	
+//	   WebElement e1=driver.findElement(By.xpath("//div[contains(@class, 'css-1wy0on6')]"));	
+//	   e1.click();
+//
+//	   List<WebElement> E21=driver.findElements(By.xpath("//div[contains(@class, 'css-yt9ioa-option')]"));
+//	for (WebElement option : E21) {
+//	    if (option.getText().equals("Group 1, option 1")) {
+//	    	js.executeScript("arguments[0].click();", option);
+//	        break;
+//	    }
+//	}
+////	js.executeScript("arguments[0].click();", E2);	
+////	Select sel=new Select(E2);
+////	sel.selectByVisibleText("Group 1, option 2");
+//
+//	WebElement E3=driver.findElement(By.xpath("//div[@id='selectOne']"));	
+//	js.executeScript("arguments[0].click();", E3);
+//	 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//		WebElement option = wait.until(ExpectedConditions.elementToBeClickable(
+//		    By.xpath("//div[contains(@class,' css-1uccc91-singleValue')]")));
+//		    js.executeScript("arguments[0].click();", option);
+	
+//	WebElement E3=driver.findElement(By.xpath("//div[contains(text(),'Select Title')]"));
+//	js.executeScript("arguments[0].click();", E3);
+//	
+//	Select sel1=new Select(E3);
+//	sel1.selectByVisibleText("Dr.");
+	
+	WebElement E4=driver.findElement(By.xpath("//select[@id='oldSelectMenu']"));
+	js.executeScript("arguments[0].click();", E4);
+	
+	Select sel2=new Select(E4);
+	sel2.selectByVisibleText("Green");
+	
+	WebElement E5=driver.findElement(By.xpath("//div[contains(text(),'Select...')]"));
+	js.executeScript("arguments[0].click();", E5);
+	
+	Select sel3=new Select(E5);
+	sel3.selectByVisibleText("Green");
+	sel3.selectByVisibleText("Blue");
+	WebElement E6=driver.findElement(By.xpath("//div[@id='selectMenuContainer']//div[@class='row']//div[@class=' css-tlfecz-indicatorContainer']//*[name()='svg']//*[name()='path' and contains(@d,'M4.516 7.5')]"));
+	js.executeScript("arguments[0].click();", E6);
+	
+	
+	
+	driver.close();
+	
+	
+	
+	
+
+	}
+
+}
